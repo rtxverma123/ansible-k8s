@@ -1,0 +1,16 @@
+- name: Build docker image
+  hosts: localhost
+  become: yes
+  become_user: root
+  tasks: 
+    - name: Build image and with build args
+      docker_image:
+        name: myimage
+        build:
+          path: .
+          args:
+            log_volume: /var/log/myapp
+            listen_port: 8080
+        source: build
+
+

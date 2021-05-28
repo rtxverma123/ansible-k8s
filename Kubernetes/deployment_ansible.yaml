@@ -1,0 +1,164 @@
+# - name: Deployment with ansible
+#   hosts: localhost
+#   become: yes
+#   become_user: root
+#   tasks: 
+#     - name: Deploying cluster
+#       k8s: 
+#        state: latest
+#        definations: 
+#          apiVersion: apps/v1
+#          kind: Deployment
+#          metadata: 
+#             name: mydeploy
+#             labels: 
+#                app: httpd
+#          spec: 
+#           replicas: 1
+#           selector: 
+#               matchLabels: 
+#                    app: httpd
+#           template: 
+#               metadata: 
+#                   labels: 
+#                      app: httpd
+#               spec: 
+#                 containers:
+#                     - name: mycontainer
+#                       image: nginx
+#                       ports: 
+#                        - containerPort: 80
+# - hosts: localhost
+#   become: yes
+#   become_user: root
+#   name: Make pod
+#   tasks:
+#   - name: Create a pod
+#     k8s:
+#       state: present
+#       definition:
+#         apiVersion: v1
+#         kind: Pod
+#         metadata:
+#           name: "react-pod"
+#           namespace: default
+#           labels:
+#             app: galaxy
+#         spec:
+#           containers:
+#           - name: utilitypod
+#             image: rtxverma123/reactapp
+
+# - hosts: localhost
+#   tasks: 
+#     - name: Create a Service object from an inline definition
+#       k8s:
+#         state: present
+#         definition:
+#          apiVersion: v1
+#          kind: Pod
+#          metadata:
+#            name: myapp
+#            namespace: default
+#            labels:
+#              name: myapp
+#          spec:
+#            containers:
+#            - name: myapp
+#              image: nginx
+#              resources:
+#                limits:
+#                  memory: "128Mi"
+#                  cpu: "500m"
+#              ports:
+#                - containerPort: 80
+
+# - hosts: localhost
+#   become: yes
+#   become_user: root
+#   tasks: 
+#     - name: Create deploy
+#       k8s: 
+#         state: present
+#         definition: 
+#             apiVersion: apps/v1
+#             kind: Deployment
+#             metadata:
+#               name: myapp
+#             spec:
+#               selector:
+#                 matchLabels:
+#                   app: myapp
+#               template:
+#                 metadata:
+#                   labels:
+#                     app: myapp
+#                 spec:
+#                   containers:
+#                   - name: myapp
+#                     image: httpd
+#                     resources:
+#                       limits:
+#                         memory: "128Mi"
+#                         cpu: "500m"
+#                     ports:
+#                     - containerPort: 8000
+
+# - name: Create Pod
+#   hosts: localhost
+#   become: yes
+#   become_user: root
+#   tasks: 
+#    - name: Create pod
+#      k8s: 
+#       state: present
+#       definition: 
+#           apiVersion: v1
+#           kind: Pod
+#           metadata: 
+#              name: myhttpd
+#              namespace: default
+#              labels: 
+#                 app: newapp
+#           spec: 
+#              containers: 
+#                 - name: mynewcontainer
+#                   image: nginx
+#                   resources:
+#                        limits:
+#                            memory: "128Mi"
+#                            cpu: "500m"
+#                   ports: 
+#                     - containerPort: 80
+            
+         
+- hosts: localhost
+  tasks: 
+     - name: create deployment
+       k8s: 
+         state: present
+         definition: 
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: myapp
+              namespace: default
+            spec:
+              selector:
+                matchLabels:
+                  app: myapp
+              template:
+                metadata:
+                  labels:
+                    app: myapp
+                spec:
+                  containers:
+                  - name: myapp
+                    image: httpd
+                    resources:
+                      limits:
+                        memory: "128Mi"
+                        cpu: "500m"
+                    ports:
+                    - containerPort: 80
+            

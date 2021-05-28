@@ -1,0 +1,9 @@
+- name: Pull image
+  hosts: localhost
+  become: yes
+  become_user: root
+  tasks: 
+    - name: Pull Image
+      docker_image: 
+           name: nginx
+           source: pull

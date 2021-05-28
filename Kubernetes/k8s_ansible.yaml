@@ -1,0 +1,50 @@
+- name: Kubernetes deployment
+  hosts: localhost
+  
+  tasks: 
+    - name: Applying nginx
+      k8s: 
+       state: present
+       definition: 
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata: 
+             name: mydeployment
+             namespace: default
+             labels: 
+                app: myapp
+          spec: 
+            replicas: 1
+            selector: 
+              matchLabels:
+               app: myapp
+            template: 
+              metadata:
+                  labels: 
+                    app: myapp
+              spec: 
+                containers:
+                   - name: mycontainer
+                     image: nginx
+                     containerPort:
+                       - port: 80
+    
+    - name: Service File
+      k8s: 
+        state: present
+        definition: 
+           apiVersion: v1
+           kind: Service
+           metadata: 
+              name: myservice
+              namespace: default
+           spec: 
+             selector: 
+                  app: myapp
+             type: NodePort
+             ports: 
+                - protocol: TCP
+                  nodePort: 30017
+                  port: 80
+                  taargetPort: 80 
+
